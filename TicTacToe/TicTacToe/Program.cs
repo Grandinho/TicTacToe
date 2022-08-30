@@ -31,6 +31,7 @@ namespace TicTacToe
 
         static void StartGame(string playerOneName, string playerTwoName)
         {
+            //TODO store players in array
             Player playerOne = new Player(playerOneName, "O");
             Player playerTwo = new Player(playerTwoName, "X");
             string symbolInput;
@@ -39,6 +40,7 @@ namespace TicTacToe
             int column = 0;
             bool isInputValid;
 
+            //TODO move board to class
             string[,] board = {
             {"1","2","3"},
             {"4","5","6" },

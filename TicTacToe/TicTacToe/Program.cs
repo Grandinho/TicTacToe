@@ -35,7 +35,6 @@ namespace TicTacToe
             players[0] = new Player(playerOneName, "O");
             players[1] = new Player(playerTwoName, "X");
             int roundSwitch = 0;
-            string symbolInput;
             string playerInput;
             int row = 0;
             int column = 0;
@@ -49,38 +48,50 @@ namespace TicTacToe
             };
             while (true == true)
             {
-                if (roundSwitch == 2) roundSwitch = 0;
+                //Update board
+                Console.Clear();
                 CreateBoard(board);
 
-                do { 
-                Console.Write("{0} Enter field: ", players[roundSwitch].PlayerName);
-                playerInput = Console.ReadLine();
-                symbolInput = players[roundSwitch].PlayerSymbol;
-                isInputValid = GetIndexOfInput(board, playerInput, ref row, ref column);
 
-                if (!isInputValid) {
-                    Console.Clear();
-                    CreateBoard(board);
-                }
-                } while (isInputValid == false) ;
+                if (roundSwitch == 2) roundSwitch = 0;
 
-                board[row, column] = symbolInput;
-                players[roundSwitch].RoundNumber++;
 
-                if (players[roundSwitch].RoundNumber >= 3)
-                    if (players[roundSwitch].WinChecker(board)) {
+                do
+                {
+                    Console.Write("{0} Enter field: ", players[roundSwitch].PlayerName);
+                    playerInput = Console.ReadLine();
+                    isInputValid = GetIndexOfInput(board, playerInput, ref row, ref column);
+
+                    if (!isInputValid)
+                    {
                         Console.Clear();
                         CreateBoard(board);
-                        Console.WriteLine("{0} has won", players[roundSwitch].PlayerName);
-                        Console.ReadLine();
+                    }
+                } while (isInputValid == false);
+
+                //Change board with X or O
+                board[row, column] = players[roundSwitch].PlayerSymbol;
+
+                players[roundSwitch].RoundNumber++;
+                if (players[roundSwitch].RoundNumber >= 3)
+                    if (players[roundSwitch].WinChecker(board))
+                    {
+                        Console.Clear();
+                        CreateBoard(board);
+                        Console.WriteLine("Player {0} has won, congratulations", players[roundSwitch].PlayerName);
+                        RestartGame(ref players, ref board);
                     }
 
-                if(players[roundSwitch].RoundNumber == 5)
-                    {
-                        Console.WriteLine("Draw");
-                    }        
-                Console.Clear();
-                roundSwitch++;   
+
+                if (players[roundSwitch].RoundNumber >= 5)
+                {
+                    Console.Clear();
+                    CreateBoard(board);
+                    Console.WriteLine("It looks that there is no winner. Its draw!");
+                    RestartGame(ref players, ref board);
+                }
+
+                roundSwitch++;
             }
         }
 
@@ -113,6 +124,31 @@ namespace TicTacToe
                 }     
             }
             return false;
+        }
+
+        static void RestartGame(ref Player[] player, ref string[,] board)
+        {
+            player[0].ResetGame();
+            player[1].ResetGame();
+
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Actual leaderboard:");
+            Console.WriteLine("Player {0} has won: {1} time/s ", player[0].PlayerName, player[0].WinCounter);
+            Console.WriteLine("Player {0} has won: {1} time/s ", player[1].PlayerName, player[1].WinCounter);
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("If you want to play again press any key!");
+            Console.ReadLine();
+            int counter = 0;
+            for (int i = 0; i < board.GetLength(0); i++)
+            {
+
+                for (int j = 0; j < board.GetLength(1); j++)
+                {
+                    counter++;
+                    board[i, j] = counter.ToString();
+                }
+            }
+
         }
 
 

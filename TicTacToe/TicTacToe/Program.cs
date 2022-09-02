@@ -31,7 +31,6 @@ namespace TicTacToe
 
         static void StartGame(string playerOneName, string playerTwoName)
         {
-            //TODO store players in array
             Player[] players = new Player[2];
             players[0] = new Player(playerOneName, "O");
             players[1] = new Player(playerTwoName, "X");
@@ -53,97 +52,34 @@ namespace TicTacToe
                 if (roundSwitch == 2) roundSwitch = 0;
                 CreateBoard(board);
 
+                do { 
                 Console.Write("{0} Enter field: ", players[roundSwitch].PlayerName);
                 playerInput = Console.ReadLine();
                 symbolInput = players[roundSwitch].PlayerSymbol;
                 isInputValid = GetIndexOfInput(board, playerInput, ref row, ref column);
 
-                if (!isInputValid)
-                {
+                if (!isInputValid) {
                     Console.Clear();
                     CreateBoard(board);
                 }
-             while (isInputValid == false) ;
+                } while (isInputValid == false) ;
 
-            board[row, column] = symbolInput;
+                board[row, column] = symbolInput;
                 players[roundSwitch].RoundNumber++;
-                Console.WriteLine(players[roundSwitch].RoundNumber);
-                Console.ReadKey();
 
                 if (players[roundSwitch].RoundNumber >= 3)
-                if (players[roundSwitch].WinChecker(board))
-                {
-                    Console.Clear();
-                    CreateBoard(board);
-                    Console.WriteLine("{0} has won", players[roundSwitch].PlayerName);
-                    Console.ReadLine();
-                }
+                    if (players[roundSwitch].WinChecker(board)) {
+                        Console.Clear();
+                        CreateBoard(board);
+                        Console.WriteLine("{0} has won", players[roundSwitch].PlayerName);
+                        Console.ReadLine();
+                    }
 
-            if(players[roundSwitch].RoundNumber == 5)
-                {
-                    Console.WriteLine("Draw");
-                }
-
-
-            ////Playerone turn
-            //if (counter % 2 == 1)
-            //{
-            //    do
-            //    {
-            //        Console.Write("{0} Enter field: ", playerOne.PlayerName);
-            //        playerInput = Console.ReadLine();
-            //        symbolInput = playerOne.PlayerSymbol;
-            //        isInputValid = GetIndexOfInput(board, playerInput, ref row, ref column);
-
-            //        if (!isInputValid)
-            //        {
-            //            Console.Clear();
-            //            CreateBoard(board);
-            //        }
-            //    } while (isInputValid == false);
-
-            //    board[row, column] = symbolInput;
-            //    playerOne.RoundNumber++;
-            //    if (playerOne.RoundNumber >= 3)
-            //        if (playerOne.WinChecker(board))
-            //        {
-            //            Console.Clear();
-            //            CreateBoard(board);
-            //            Console.WriteLine("{0} has won", playerOne.PlayerName);
-            //            Console.ReadLine();
-            //        }
-
-            //}
-            ////Playertwo turn
-            //else
-            //{
-            //    do
-            //    {
-            //        Console.Write("{0} Enter field: ", playerTwo.PlayerName);
-            //        playerInput = Console.ReadLine();
-            //        symbolInput = playerTwo.PlayerSymbol;
-            //        isInputValid = GetIndexOfInput(board, playerInput, ref row, ref column);
-
-            //        if (!isInputValid)
-            //        {
-            //            Console.Clear();
-            //            CreateBoard(board);
-            //        }
-            //    } while (isInputValid == false);
-
-            //    board[row, column] = symbolInput;
-            //    playerTwo.RoundNumber++;
-            //    if (playerTwo.RoundNumber >= 3)
-            //        if (playerTwo.WinChecker(board))
-            //        {
-            //            Console.Clear();
-            //            CreateBoard(board);
-            //            Console.WriteLine("{0} has won", playerTwo.PlayerName);
-            //            Console.ReadLine();
-            //        }
-            //}
-        
-            Console.Clear();
+                if(players[roundSwitch].RoundNumber == 5)
+                    {
+                        Console.WriteLine("Draw");
+                    }        
+                Console.Clear();
                 roundSwitch++;   
             }
         }
